@@ -1,0 +1,1 @@
+add f s t = f + s + t

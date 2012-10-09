@@ -539,6 +539,24 @@ data Colour = HexColour String
                     | NameColour
 }}}</pre>
 </div>
+<div title="Function Application" creator="YourName" modifier="YourName" created="201210091146" modified="201210091148" changecount="2">
+<pre>Function and arguments separated by spaces:
+
+{{{
+add 1 2 3
+}}}
+
+Function application is left associative so the following expressions are equivalent:
+
+{{{
+add 1 2 3
+(((add 1) 2) 3)
+-- 6
+}}}</pre>
+</div>
+<div title="Functions" creator="YourName" modifier="YourName" created="201210091145" changecount="1">
+<pre>[[Function Application]]</pre>
+</div>
 <div title="MainMenu" creator="Liam" modifier="Liam" created="201210091049" changecount="1">
 <pre>[[DefaultTiddlers]]</pre>
 </div>
@@ -548,9 +566,36 @@ data Colour = HexColour String
 <div title="SiteTitle" creator="YourName" modifier="YourName" created="201210091048" changecount="1">
 <pre>Learning Haskell</pre>
 </div>
-<div title="ToC" creator="Liam" modifier="YourName" created="201210091050" modified="201210091105" changecount="2">
-<pre>[[Types]]
+<div title="ToC" creator="Liam" modifier="YourName" created="201210091050" modified="201210091145" changecount="4">
+<pre>[[Functions]]
+[[Tuples]]
+[[Types]]
 [[ghci commands]]</pre>
+</div>
+<div title="Tuples" creator="YourName" modifier="YourName" created="201210091141" modified="201210091145" changecount="2">
+<pre>A tuple is a fixed-size collection of values, where each value can have a different type.
+
+{{{
+:type (1964, &quot;Labyrinths&quot;)
+-- :: Num t =&gt; (t, [Char])
+}}}
+
+!fst
+
+Get the first element.
+
+!snd
+
+Get the second element
+
+!Pattern Matching
+
+Extract values with pattern matching.
+
+{{{
+(d, _) = (1964. &quot;Labyrinth&quot;)
+-- d = 1964
+}}}</pre>
 </div>
 <div title="Type Synonyms" creator="YourName" modifier="YourName" created="201210091110" changecount="1">
 <pre>{{{
