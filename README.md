@@ -1,0 +1,1 @@
+This repo is my notes from Real World Haskell.
