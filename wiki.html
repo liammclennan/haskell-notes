@@ -518,8 +518,10 @@ noscript {display:none;} /* Fixes a feature in Firefox 1.5.0.2 where print previ
 <div title="DefaultTiddlers" creator="Liam" modifier="Liam" created="201210091050" modified="201210091050" changecount="2">
 <pre>[[ToC]]</pre>
 </div>
-<div title="Defining A Type" creator="YourName" modifier="YourName" created="201210091110" modified="201210091118" changecount="3">
-<pre>Define a type using the `type` keyword, a type name and one or more constructors. 
+<div title="Defining A Type" creator="YourName" modifier="YourName" created="201210091110" modified="201210101113" changecount="6">
+<pre>Define a type using the `data` keyword, a type name and one or more constructors. 
+
+[[Record Syntax]]
 
 {{{
 data BookInfo = Book Int String [String]
@@ -537,6 +539,15 @@ An algebraic data type can have multiple value constructors with different signa
 data Colour = HexColour String
                     | ComponentColour Int Int Int
                     | NameColour
+}}}
+
+{{{
+-- type synonym
+type Vector = (Double, Double)
+
+-- algebraic data type
+data Shape = Circle Vector Double
+           | Poly [Vector]
 }}}</pre>
 </div>
 <div title="Function Application" creator="YourName" modifier="YourName" created="201210091146" modified="201210091148" changecount="2">
@@ -587,17 +598,64 @@ Prepend an item.
 -- last :: [a] -&gt; a
 }}}</pre>
 </div>
+<div title="Patern Matching Function Arguments" creator="YourName" modifier="YourName" created="201210101044" modified="201210101059" changecount="4">
+<pre>Haskell lets us define a function as a series of equations: these two clauses are defining the behavior of the same function for different patterns of input.
+
+Matching proceeds from top to bottom, and stops at the first success. Equations below a successful match have no effect.
+
+{{{
+myNot True  = False
+myNot False = True
+}}}
+
+can also deconstruct the args:
+
+{{{
+firstFirst :: (Num a) =&gt; [(a,a)] -&gt; a
+firstFirst ((f,s):xs) = f
+
+firstFirst [(4,3),(1,2)]
+-- 4
+}}}</pre>
+</div>
+<div title="Pattern Matching" creator="YourName" modifier="YourName" created="201210101043" modified="201210101104" changecount="2">
+<pre>[[Patern Matching Function Arguments]]
+
+Pattern matching syntax tends to match the construction syntax:
+
+{{{
+[1,2,3, 4]
+[f, s, t, xs]
+
+('Peter', 29)
+(n, a)
+
+Book 7 'Lord of the Rings'
+Book i t
+}}}</pre>
+</div>
+<div title="Record Syntax" creator="YourName" modifier="YourName" created="201210101118" changecount="1">
+<pre>Type the text for 'Record Syntax'
+
+{{{
+data Person = Person {
+    age     :: Int,
+    name  :: String
+  } deriving (Show)
+}}}</pre>
+</div>
 <div title="SiteSubtitle" creator="YourName" modifier="YourName" created="201210091049" changecount="1">
 <pre>mutter mutter mutter</pre>
 </div>
 <div title="SiteTitle" creator="YourName" modifier="YourName" created="201210091048" changecount="1">
 <pre>Learning Haskell</pre>
 </div>
-<div title="ToC" creator="Liam" modifier="YourName" created="201210091050" modified="201210091222" changecount="5">
+<div title="ToC" creator="Liam" modifier="YourName" created="201210091050" modified="201210101043" changecount="6">
 <pre>[[Functions]]
 [[Lists]]
 [[Tuples]]
 [[Types]]
+[[Pattern Matching]]
 [[ghci commands]]</pre>
 </div>
 <div title="Tuples" creator="YourName" modifier="YourName" created="201210091141" modified="201210091145" changecount="2">
