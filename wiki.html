@@ -518,10 +518,12 @@ noscript {display:none;} /* Fixes a feature in Firefox 1.5.0.2 where print previ
 <div title="DefaultTiddlers" creator="Liam" modifier="Liam" created="201210091050" modified="201210091050" changecount="2">
 <pre>[[ToC]]</pre>
 </div>
-<div title="Defining A Type" creator="YourName" modifier="YourName" created="201210091110" modified="201210101113" changecount="6">
+<div title="Defining A Type" creator="YourName" modifier="YourName" created="201210091110" modified="201210111000" changecount="8">
 <pre>Define a type using the `data` keyword, a type name and one or more constructors. 
 
 [[Record Syntax]]
+[[Parameterised Types]]
+[[Recursive Types]]
 
 {{{
 data BookInfo = Book Int String [String]
@@ -565,9 +567,21 @@ add 1 2 3
 -- 6
 }}}</pre>
 </div>
-<div title="Functions" creator="YourName" modifier="YourName" created="201210091145" modified="201210091212" changecount="3">
+<div title="Functions" creator="YourName" modifier="YourName" created="201210091145" modified="201210162037" changecount="4">
 <pre>[[Function Application]]
-[[Parametric Polymorphism]]</pre>
+[[Parametric Polymorphism]]
+[[Local Variables]]</pre>
+</div>
+<div title="Guards" creator="YourName" modifier="YourName" created="201210162122" modified="201210162124" changecount="3">
+<pre>Define different implementations of a function differentiated by predicates of the function arguments:
+
+{{{
+abs a
+  | a &lt; 0 = a * (-1)
+  | otherwise = a
+}}}
+
+otherwise is a special variable bound to True.</pre>
 </div>
 <div title="Lists" creator="YourName" modifier="YourName" created="201210091222" modified="201210091226" changecount="4">
 <pre>!++
@@ -587,8 +601,38 @@ Prepend an item.
 'a' : &quot;pple&quot;
 }}}</pre>
 </div>
+<div title="Local Variables" creator="YourName" modifier="YourName" created="201210162042" modified="201210162106" changecount="3">
+<pre>local variables can be declared using the `let... in` keywords. Let defines the local variables, in defines the scope in which they are bound.
+
+{{{
+pi = let n = 22
+           d = 7
+      in 
+           n/22
+}}}
+
+Let bound variables are in scope within the let block and the in block. Let's can be nested and nested let's can have variables that shadow outer let variables. 
+
+Local variables can also be introduced with the where keyword
+
+{{{
+pi = n / d
+       where n = 22
+       d = 7
+}}}
+
+Variables defined in let and where blocks can be functions.</pre>
+</div>
 <div title="MainMenu" creator="Liam" modifier="YourName" created="201210091049" modified="201210091222" changecount="2">
 <pre></pre>
+</div>
+<div title="Parameterised Types" creator="YourName" modifier="YourName" created="201210111000" changecount="1">
+<pre>Use a type variable in the type definition
+
+{{{
+data Maybe a = Just a
+             | Nothing
+}}}</pre>
 </div>
 <div title="Parametric Polymorphism" creator="YourName" modifier="YourName" created="201210091210" changecount="1">
 <pre>Type variables in a function's type declaration.
@@ -634,7 +678,7 @@ Book 7 'Lord of the Rings'
 Book i t
 }}}</pre>
 </div>
-<div title="Record Syntax" creator="YourName" modifier="YourName" created="201210101118" changecount="1">
+<div title="Record Syntax" creator="YourName" modifier="YourName" created="201210101118" modified="201210110954" changecount="4">
 <pre>Type the text for 'Record Syntax'
 
 {{{
@@ -642,6 +686,63 @@ data Person = Person {
     age     :: Int,
     name  :: String
   } deriving (Show)
+
+:type age
+age :: Person -&gt; Int
+
+-- parenthesis are required because function application is left associative
+age (Person 29 &quot;Liam&quot;)
+-- 29
+}}}
+
+a value of a record type may be created using named arguments:
+
+{{{
+Person {
+    name = &quot;Liam&quot;,
+    age = 29
+  }
+}}}
+</pre>
+</div>
+<div title="Recursive Types" creator="YourName" modifier="YourName" created="201210111020" modified="201210111043" changecount="3">
+<pre>Define a type in terms of itself.
+
+{{{
+data Stack a =  Nil
+                | Push a (Stack a)
+                deriving (Show)
+}}}
+
+linked list with record syntax:
+
+{{{
+data LinkedList' a = LinkedList' {
+    val     :: a,
+    nex  :: LinkedList' a
+  }
+  | End
+  deriving (Show)
+
+l1= LinkedList' {val=4, nex= LinkedList' { val = 5, nex=End}}
+val l1
+-- 4
+
+val (nex l1)
+-- 5
+}}}
+
+linked list with function syntax
+
+{{{
+
+data LinLis a = LinLis a (LinLis a)
+                | LisEnd
+                deriving (Show)
+
+let (LinLis v _) = LinLis 2 (LinLis 5 LisEnd)
+v
+-- 2
 }}}</pre>
 </div>
 <div title="SiteSubtitle" creator="YourName" modifier="YourName" created="201210091049" changecount="1">
@@ -650,13 +751,17 @@ data Person = Person {
 <div title="SiteTitle" creator="YourName" modifier="YourName" created="201210091048" changecount="1">
 <pre>Learning Haskell</pre>
 </div>
-<div title="ToC" creator="Liam" modifier="YourName" created="201210091050" modified="201210101043" changecount="6">
+<div title="ToC" creator="Liam" modifier="YourName" created="201210091050" modified="201211031015" changecount="10">
 <pre>[[Functions]]
 [[Lists]]
 [[Tuples]]
 [[Types]]
 [[Pattern Matching]]
-[[ghci commands]]</pre>
+[[ghci commands]]
+[[error]]
+[[case]]
+[[Guards]]
+[[Type Classes]]</pre>
 </div>
 <div title="Tuples" creator="YourName" modifier="YourName" created="201210091141" modified="201210091145" changecount="2">
 <pre>A tuple is a fixed-size collection of values, where each value can have a different type.
@@ -683,6 +788,28 @@ Extract values with pattern matching.
 -- d = 1964
 }}}</pre>
 </div>
+<div title="Type Classes" creator="YourName" modifier="YourName" created="201211031017" modified="201211031021" changecount="2">
+<pre>Typeclasses define a set of functions that can have different implementations depending on the type of data they are given.
+
+much like a C# interface.
+
+{{{
+class BasicEq a where
+    isEqual :: a -&gt; a -&gt; Bool
+}}}
+
+!!Add A Typeclass to a type
+
+{{{
+instance BasicEq Bool where
+    isEqual True  True  = True
+    isEqual False False = True
+    isEqual _     _     = False
+}}}
+
+
+</pre>
+</div>
 <div title="Type Synonyms" creator="YourName" modifier="YourName" created="201210091110" changecount="1">
 <pre>{{{
     type CustomerID = Int 
@@ -693,6 +820,23 @@ Extract values with pattern matching.
 
 [[Type Synonyms]]
 [[Defining A Type]]</pre>
+</div>
+<div title="case" creator="YourName" modifier="YourName" created="201210162118" changecount="1">
+<pre>syntax is:
+
+{{{
+case expression of
+  pattern1 -&gt; val1
+  pattern2 -&gt; val2
+}}}</pre>
+</div>
+<div title="error" creator="YourName" modifier="YourName" created="201210162032" changecount="1">
+<pre>Immediately aborts execution and prints the supplied message:
+
+{{{
+error &quot;gggaaahhhh!!!!&quot;
+*** Exception: gggaahhhh!!!!
+}}}</pre>
 </div>
 <div title="ghci commands" creator="YourName" modifier="YourName" created="201210091106" modified="201210091108" changecount="5">
 <pre>!:l &lt;scriptname&gt;
