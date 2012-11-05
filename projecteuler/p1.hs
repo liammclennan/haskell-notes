@@ -13,4 +13,3 @@ p1' = sum [i | i <- [1..999], divBy3Or5 i]
 -- using foldr to implement sum
 p1'' = foldr (+) 0 [i | i <- [1..999], divBy3Or5 i]
        where divBy3Or5 a =  a `mod` 3 == 0 || a `mod` 5 == 0
-
